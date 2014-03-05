@@ -7,3 +7,4 @@ module QueueIt
 end
 
 require "queue_it/queueable" if defined?(::Rails)
+require "queue_it/railtie"   if defined?(::Rails)
