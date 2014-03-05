@@ -5,3 +5,5 @@ module QueueIt
   class NotAuthorized    < StandardError; end
   class MissingArgsGiven < StandardError; end
 end
+
+require "queue_it/queueable" if defined?(::Rails)
