@@ -13,7 +13,7 @@ module QueueIt
       end
 
       def create_or_verify_queue_it_session(secret_key, event_id, customer_id, request_url, params)
-        # If there exists a session, we return. This needs to be refactored if we start to look at the timestamp parameter
+        # If there exists a session, we return. This needs to be refactored when we start to look at the timestamp parameter
         return if session[queue_it_session_variable(event_id)].present?
 
         begin
