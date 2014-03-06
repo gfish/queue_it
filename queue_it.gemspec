@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = QueueIt::VERSION
   spec.authors       = ["Kasper Grubbe"]
   spec.email         = ["kawsper@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Gem to handle the implementation of http://queue-it.net!}
+  spec.summary       = %q{Gem to handle the implementation of http://queue-it.net}
   spec.homepage      = "https://github.com/gfish/queue_it"
   spec.license       = "GNU/GPLv3"
 
