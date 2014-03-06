@@ -4,7 +4,7 @@ module QueueIt
 
     included do
       def queue_it_queue_id(event_id)
-        session[queue_it_session_variable(event_id)]
+        session[queue_it_session_variable(event_id)].to_i
       end
 
       def destroy_all_queue_it_sessions
