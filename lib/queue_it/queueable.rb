@@ -45,9 +45,11 @@ module QueueIt
           end
         rescue QueueIt::MissingArgsGiven
           queue_url = QueueIt::UrlBuilder.build_queue_url(customer_id, event_id)
+          destroy_all_queue_it_sessions
           render("queue_it/enter_queue", layout: false, locals: { queue_it_url: queue_url }) and return
         rescue QueueIt::NotAuthorized
           queue_cancel_url = QueueIt::UrlBuilder.build_cancel_url(customer_id, event_id)
+          destroy_all_queue_it_sessions
           render("queue_it/cheating_queue", layout: false, locals: { queue_it_url: queue_cancel_url }) and return
         end
       end
