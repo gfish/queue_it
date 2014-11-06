@@ -40,7 +40,10 @@ In our Event-model, we determine whether or not its queue-enabled:
 ```ruby
 class Event < ActiveRecord::Base
   def queue_enabled?
-    queue_it_enabled? && queue_it_customer_id.present? && queue_it_event_id.present? && queue_it_known_user_secret_key.present?
+    queue_it_enabled? &&
+    queue_it_customer_id.present? &&
+    queue_it_event_id.present? &&
+    queue_it_known_user_secret_key.present?
   end
 end
 ```
