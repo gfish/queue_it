@@ -57,7 +57,7 @@ class EventsController < ApplicationController
   def tickets
     event = Event.find(params[:id])
 
-    if e.queue_enabled?
+    if event.queue_enabled?
       protect_with_queue!(event.queue_it_known_user_secret_key,
                           event.queue_it_event_id,
                           event.queue_it_customer_id)
