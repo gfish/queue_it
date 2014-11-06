@@ -55,17 +55,20 @@ class EventsController < ApplicationController
   include QueueIt::Queueable
 
   def tickets
-    e = Event.find(params[:id])
+    event = Event.find(params[:id])
 
     if e.queue_enabled?
-      protect_with_queue!(e.queue_it_known_user_secret_key, e.queue_it_event_id, e.queue_it_customer_id)
-      # We use performed to see if our queue protection have rendered something, if it has rendered stop all other execution
+      protect_with_queue!(event.queue_it_known_user_secret_key,
+                          event.queue_it_event_id,
+                          event.queue_it_customer_id)
+      # We use performed to see if our queue protection have rendered something,
+      # if it has rendered stop all other execution
       return if performed?
     end
   end
 
   def receipt
-    # The user have bought his/her tickets, push them out of the queue
+    # The user has bought his/her tickets, push them out of the queue
     destroy_all_queue_it_sessions
   end
 end
