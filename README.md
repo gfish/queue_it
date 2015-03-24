@@ -24,7 +24,7 @@ $ gem install queue_it
 
 ## Usage
 
-We are using Queue-it on http://billetto.co.ok, and we create our queued events like this:
+We are using Queue-it on http://billetto.co.uk, and we create our queued events like this:
 
 ```ruby
 event  = create(:event,
