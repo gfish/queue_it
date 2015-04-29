@@ -4,8 +4,8 @@ require 'uri'
 module QueueIt
   module Api
     class Event
-      def initialize(connection)
-        self.connection = connection
+      def initialize(client)
+        self.client = client
       end
 
       def create_or_update(event_id:, display_name:, start_time:, know_user_secret_key:, redirect_url:, end_time: nil, description: nil, max_redirects_per_minute: 15, event_culture_name: "en-GB", time_zone: "UTC", queue_number_validity_in_minutes: 15)
@@ -26,7 +26,7 @@ module QueueIt
 
       private
 
-      attr_accessor :connection
+      attr_accessor :client
 
       ONE_YEAR        = 31557600.freeze
       ONE_HOUR        = 3600.freeze
@@ -91,7 +91,7 @@ module QueueIt
       end
 
       def perform_request(method, path, body = {})
-        json_response = connection.public_send(method, path, body)
+        json_response = client.public_send(method, path, body)
         json_response.body
       end
     end

@@ -1,12 +1,12 @@
-require 'queue_it/api/fake_connection'
+require 'queue_it/api/fake_client'
 require 'queue_it/api/event'
 
 module QueueIt
   module Api
     describe Event do
-      let(:connection) { FakeConnection.new(api_key: "VALID_KEY", endpoint_url: "https://api.queue-it.net/1.2/event") }
+      let(:client) { FakeClient.new("VALID_KEY") }
 
-      subject(:event_adapter) { Event.new(connection) }
+      subject(:event_adapter) { Event.new(client) }
 
       context "#create_or_update" do
         specify "creates or updates event" do
@@ -52,59 +52,44 @@ module QueueIt
                                                 time_zone:                         "Europe/Copenhagen",))
             .to eq(response)
         end
-
-        pending "incorrect event_id provided" do
-          fail
-          expect do
-            event_adapter.create_or_update(event_id:             "thats not a proper id 99",
-                                           display_name:         "Fancy Event 2015",
-                                           description:          "Foo",
-                                           redirect_url:         "https://example.com/en/events/fancy_event/tickets",
-                                           start_time:           Time.new(2015,04,28,17,25,46, "+02:00"),
-                                           end_time:             Time.new(2015,04,28,21,25,46, "+02:00"),
-                                           know_user_secret_key: "930f42ca-d9e7-4202-bff4-606e127b1c103980c131-cd8a-4e35-a945-50f7b5102ad6",
-                                           max_redirects_per_minute: 15,
-                                           queue_number_validity_in_minutes: 15)
-          end.to raise_error(Event::ClientError)
-        end
       end
 
       private
 
       def expected_create_response
         {
-          "AfterEventLogic"=>2,
-          "AfterEventRedirectPage"=>nil,
-          "AllowedCustomLayouts"=>[],
-          "BrowserCultureEnabled"=>false,
-          "CustomLayout"=>nil,
-          "Description"=>"Foo",
-          "DisplayName"=>"Fancy Event 2015",
-          "DomainAlias"=>"fancy_event-testcompany.queue-it.net",
-          "EventCultureName"=>"en-GB",
-          "EventEndTime"=>"/Date(1430249146)/",
-          "EventStartTime"=>"/Date(1430234746)/",
-          "JavaScriptSupportEnabled"=>false,
-          "KnowUserSecretKey"=>"930f42ca-d9e7-4202-bff4-606e127b1c103980c131-cd8a-4e35-a945-50f7b5102ad6",
-          "KnowUserSecurity"=>5,
-          "MaxNoOfRedirectsPrQId"=>1,
-          "MaxRedirectsPerMinute"=>15,
-          "PreQueueStartTime"=>"/Date(1430231146)/",
-          "QueueNumberValidityInMinutes"=>15,
-          "RedirectUrl"=>"https://example.com/en/events/fancy_event/tickets",
-          "ReportPerformanceCounters"=>false,
-          "SafetyNetAverageMinutes"=>3,
-          "SafetyNetEvent"=>false,
-          "TargetUrlSupportEnabled"=>true,
-          "TargetUrlValidationRegex"=>"",
-          "TimeZone"=>"UTC",
-          "UseSSL"=>2,
-          "XUsersInFrontOfYou"=>100,
-          "EventEndLocalTime"=>"/Date(1430249146+0000)/",
-          "EventId"=>"fancy_event",
-          "EventStartLocalTime"=>"/Date(1430234746+0000)/",
-          "PreQueueStartLocalTime"=>"/Date(1430231146+0000)/",
-          "QueueUrl"=>"http://fancy_event-testcompany.queue-it.net/?c=testcompany&e=fancy_event"
+          "AfterEventLogic"              => 2,
+          "AfterEventRedirectPage"       => nil,
+          "AllowedCustomLayouts"         => [],
+          "BrowserCultureEnabled"        => false,
+          "CustomLayout"                 => nil,
+          "Description"                  => "Foo",
+          "DisplayName"                  => "Fancy Event 2015",
+          "DomainAlias"                  => "fancy_event-testcompany.queue-it.net",
+          "EventCultureName"             => "en-GB",
+          "EventEndTime"                 => "/Date(1430249146)/",
+          "EventStartTime"               => "/Date(1430234746)/",
+          "JavaScriptSupportEnabled"     => false,
+          "KnowUserSecretKey"            => "930f42ca-d9e7-4202-bff4-606e127b1c103980c131-cd8a-4e35-a945-50f7b5102ad6",
+          "KnowUserSecurity"             => 5,
+          "MaxNoOfRedirectsPrQId"        => 1,
+          "MaxRedirectsPerMinute"        => 15,
+          "PreQueueStartTime"            => "/Date(1430231146)/",
+          "QueueNumberValidityInMinutes" => 15,
+          "RedirectUrl"                  => "https://example.com/en/events/fancy_event/tickets",
+          "ReportPerformanceCounters"    => false,
+          "SafetyNetAverageMinutes"      => 3,
+          "SafetyNetEvent"               => false,
+          "TargetUrlSupportEnabled"      => true,
+          "TargetUrlValidationRegex"     => "",
+          "TimeZone"                     => "UTC",
+          "UseSSL"                       => 2,
+          "XUsersInFrontOfYou"           => 100,
+          "EventEndLocalTime"            => "/Date(1430249146+0000)/",
+          "EventId"                      => "fancy_event",
+          "EventStartLocalTime"          => "/Date(1430234746+0000)/",
+          "PreQueueStartLocalTime"       => "/Date(1430231146+0000)/",
+          "QueueUrl"                     => "http://fancy_event-testcompany.queue-it.net/?c=testcompany&e=fancy_event"
         }
       end
     end
