@@ -5,11 +5,15 @@ require 'time'
 module QueueIt
   module Api
     class Event
+      InvalidEventIdFormat = Class.new(StandardError)
+
       def initialize(client)
         self.client = client
       end
 
-      def create_or_update(event_id:, display_name:, start_time:, know_user_secret_key:, redirect_url:, end_time: nil, description: "", max_redirects_per_minute: 15, event_culture_name: "en-GB", time_zone: "UTC", queue_number_validity_in_minutes: 15)
+      def create_or_update(event_id:, display_name:, start_time:, know_user_secret_key:, redirect_url:, end_time: nil, description: "", max_redirects_per_minute: 15, event_culture_name: "en-US", time_zone: "UTC", queue_number_validity_in_minutes: 15)
+        raise InvalidEventIdFormat unless valid_event_id_format?(event_id)
+
         attributes = queue_attributes(
           start_time:                       start_time,
           end_time:                         end_time,
@@ -29,8 +33,8 @@ module QueueIt
 
       attr_accessor :client
 
-      ONE_YEAR        = 31557600.freeze
-      ONE_HOUR        = 3600.freeze
+      ONE_YEAR = 31557600.freeze
+      ONE_HOUR = 3600.freeze
 
       MICROSOFT_TIME_ZONE_INDEX_VALUES = {
         "Europe/Copenhagen" => "Romance Standard Time",
@@ -40,6 +44,12 @@ module QueueIt
         "Paris"             => "Romance Standard Time",
         "Stockholm"         => "W. Europe Standard Time",
       }.freeze
+
+      EVENT_ID_FORMAT = /\A[a-zA-z0-9]{1,512}\z/.freeze
+
+      def valid_event_id_format?(event_id)
+        "#{event_id}".match(EVENT_ID_FORMAT)
+      end
 
       def utc_start_time(start_time)
         start_time.utc
