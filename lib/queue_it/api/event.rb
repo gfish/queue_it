@@ -77,6 +77,7 @@ module QueueIt
           "EventStartTime"               => utc_start_time(start_time).iso8601(7),
           "EventEndTime"                 => utc_end_time(start_time, end_time).iso8601(7),
           "EventCulture"                 => event_culture_name,
+          "MaxRedirectsPerMinute"        => "#{max_redirects_per_minute}",
           "MaxNoOfRedirectsPrQueueId"    => "1",
           "QueueNumberValidityInMinutes" => "#{queue_number_validity_in_minutes}",
           "AfterEventLogic"              => "RedirectUsersToTargetPage",

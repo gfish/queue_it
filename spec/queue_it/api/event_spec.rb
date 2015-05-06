@@ -8,7 +8,7 @@ module QueueIt
       subject(:event_adapter) { Event.new(client) }
 
       context "#create_or_update" do
-        specify "submits proper request" do
+        specify "Submits proper request" do
           expect(client).to receive(:put).with("fancyevent", valid_create_body).and_return(double(body:{}))
 
           event_adapter.create_or_update(event_id:             "fancyevent",
@@ -23,7 +23,7 @@ module QueueIt
                                          queue_number_validity_in_minutes: 15)
         end
 
-        specify "minimum viable attributes for creating event" do
+        specify "Minimum viable attributes for creating event" do
           body = valid_create_body.merge({
             "Description"  => "",
             "EventEndTime" => "2016-04-27T21:25:46.0000000Z",
@@ -39,7 +39,7 @@ module QueueIt
                                          know_user_secret_key: "930f42ca-d9e7-4202-bff4-606e127b1c103980c131-cd8a-4e35-a945-50f7b5102ad6",)
         end
 
-        specify "set custom time zone in the ruby way" do
+        specify "Set custom time zone in the ruby way" do
           body = valid_create_body.merge({
             "TimeZone"  => "Romance Standard Time",
           })
@@ -58,7 +58,7 @@ module QueueIt
                                          time_zone:                         "Europe/Copenhagen",)
         end
 
-        specify "event id must have proper format" do
+        specify "Event id must have proper format" do
           invalid_event_id = "/fancyevent"
 
           expect do
@@ -75,6 +75,25 @@ module QueueIt
           end.to raise_error(Event::InvalidEventIdFormat)
         end
 
+        specify "Set custom number of redirects per minute" do
+          body = valid_create_body.merge({
+            "MaxRedirectsPerMinute" => "30",
+          })
+
+          expect(client).to receive(:put).with("fancyevent", body).and_return(double(body:{}))
+
+          event_adapter.create_or_update(event_id:             "fancyevent",
+                                         display_name:         "Fancy Event 2015",
+                                         description:          "Foo",
+                                         redirect_url:         "https://example.com/en/events/fancy_event/tickets",
+                                         start_time:           Time.new(2015,04,28,17,25,46, "+02:00"),
+                                         end_time:             Time.new(2015,04,28,21,25,46, "+02:00"),
+                                         event_culture_name:   "en-US",
+                                         know_user_secret_key: "930f42ca-d9e7-4202-bff4-606e127b1c103980c131-cd8a-4e35-a945-50f7b5102ad6",
+                                         max_redirects_per_minute: 30,
+                                         queue_number_validity_in_minutes: 15)
+        end
+
         private
 
         def valid_create_body
@@ -87,6 +106,7 @@ module QueueIt
             "EventStartTime"               => "2015-04-28T15:25:46.0000000Z",
             "EventEndTime"                 => "2015-04-28T19:25:46.0000000Z",
             "EventCulture"                 => "en-US",
+            "MaxRedirectsPerMinute"        => "15",
             "MaxNoOfRedirectsPrQueueId"    => "1",
             "QueueNumberValidityInMinutes" => "15",
             "AfterEventLogic"              => "RedirectUsersToTargetPage",
