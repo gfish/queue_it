@@ -13,7 +13,6 @@ module QueueIt
       let(:redirect_url)             { "https://example.com/en/events/fancy_event/tickets" }
       let(:time_zone)                { "Europe/Copenhagen" }
       let(:event_culture_name)       { "en-US" }
-      let(:max_redirects_per_minute) { 15 }
       let(:queue_number_validity_in_minutes) { 15 }
 
       subject(:event_adapter) { Event.new(client) }
@@ -30,7 +29,6 @@ module QueueIt
                                          end_time:                         Time.new(2015,04,28,21,25,46, "+02:00"),
                                          event_culture_name:               event_culture_name,
                                          know_user_secret_key:             know_user_secret_key,
-                                         max_redirects_per_minute:         max_redirects_per_minute,
                                          queue_number_validity_in_minutes: queue_number_validity_in_minutes)
         end
 
@@ -64,7 +62,6 @@ module QueueIt
                                          start_time:                        Time.new(2015,04,28,17,25,46, "+02:00"),
                                          end_time:                          Time.new(2015,04,28,21,25,46, "+02:00"),
                                          know_user_secret_key:              know_user_secret_key,
-                                         max_redirects_per_minute:          max_redirects_per_minute,
                                          queue_number_validity_in_minutes:  queue_number_validity_in_minutes,
                                          time_zone:                         time_zone,)
         end
@@ -80,7 +77,6 @@ module QueueIt
                                            start_time:                        Time.new(2015,04,28,17,25,46, "+02:00"),
                                            end_time:                          Time.new(2015,04,28,21,25,46, "+02:00"),
                                            know_user_secret_key:              know_user_secret_key,
-                                           max_redirects_per_minute:          max_redirects_per_minute,
                                            queue_number_validity_in_minutes:  queue_number_validity_in_minutes,
                                            time_zone:                         time_zone,)
           end.to raise_error(Event::InvalidEventIdFormat)
@@ -97,28 +93,9 @@ module QueueIt
                                            start_time:                        Time.new(2015,04,28,17,25,46, "+02:00"),
                                            end_time:                          Time.new(2015,04,28,21,25,46, "+02:00"),
                                            know_user_secret_key:              know_user_secret_key,
-                                           max_redirects_per_minute:          max_redirects_per_minute,
                                            queue_number_validity_in_minutes:  queue_number_validity_in_minutes,
                                            time_zone:                         time_zone,)
           end.to raise_error(Event::InvalidEventIdFormat)
-        end
-
-
-        specify "Set custom number of redirects per minute" do
-          body = valid_create_body.merge({ "MaxRedirectsPerMinute" => "30", })
-
-          expect(client).to receive(:put).with(event_id, body).and_return(double(body:{}))
-
-          event_adapter.create_or_update(event_id:                         event_id,
-                                         display_name:                     display_name,
-                                         description:                      description,
-                                         redirect_url:                     redirect_url,
-                                         start_time:                       Time.new(2015,04,28,17,25,46, "+02:00"),
-                                         end_time:                         Time.new(2015,04,28,21,25,46, "+02:00"),
-                                         event_culture_name:               event_culture_name,
-                                         know_user_secret_key:             know_user_secret_key,
-                                         max_redirects_per_minute:         30,
-                                         queue_number_validity_in_minutes: queue_number_validity_in_minutes)
         end
 
         specify "Request hits proper endpoint" do
@@ -138,7 +115,6 @@ module QueueIt
                                          end_time:                         Time.new(2015,04,28,21,25,46, "+02:00"),
                                          event_culture_name:               event_culture_name,
                                          know_user_secret_key:             know_user_secret_key,
-                                         max_redirects_per_minute:         max_redirects_per_minute,
                                          queue_number_validity_in_minutes: queue_number_validity_in_minutes)
 
         end
@@ -155,7 +131,6 @@ module QueueIt
             "EventStartTime"               => "2015-04-28T15:25:46.0000000Z",
             "EventEndTime"                 => "2015-04-28T19:25:46.0000000Z",
             "EventCulture"                 => event_culture_name,
-            "MaxRedirectsPerMinute"        => "#{max_redirects_per_minute}",
             "MaxNoOfRedirectsPrQueueId"    => "1",
             "QueueNumberValidityInMinutes" => "#{queue_number_validity_in_minutes}",
             "AfterEventLogic"              => "RedirectUsersToTargetPage",

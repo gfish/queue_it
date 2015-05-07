@@ -11,14 +11,13 @@ module QueueIt
         self.client = client
       end
 
-      def create_or_update(event_id:, display_name:, start_time:, know_user_secret_key: nil, redirect_url:, end_time: nil, description: "", max_redirects_per_minute: 15, event_culture_name: "en-US", time_zone: "UTC", queue_number_validity_in_minutes: 15)
+      def create_or_update(event_id:, display_name:, start_time:, know_user_secret_key: nil, redirect_url:, end_time: nil, description: "", event_culture_name: "en-US", time_zone: "UTC", queue_number_validity_in_minutes: 15)
         raise InvalidEventIdFormat unless valid_event_id_format?(event_id)
 
         attributes = queue_attributes(
           start_time:                       start_time,
           end_time:                         end_time,
           know_user_secret_key:             know_user_secret_key,
-          max_redirects_per_minute:         max_redirects_per_minute,
           redirect_url:                     redirect_url,
           description:                      description,
           display_name:                     display_name,
@@ -72,7 +71,7 @@ module QueueIt
         MICROSOFT_TIME_ZONE_INDEX_VALUES.fetch(time_zone, time_zone)
       end
 
-      def queue_attributes(start_time:, end_time:, know_user_secret_key:, max_redirects_per_minute:, redirect_url:, description:, display_name:, event_culture_name:, queue_number_validity_in_minutes:, time_zone:)
+      def queue_attributes(start_time:, end_time:, know_user_secret_key:, redirect_url:, description:, display_name:, event_culture_name:, queue_number_validity_in_minutes:, time_zone:)
         {
           "DisplayName"                  => display_name,
           "RedirectUrl"                  => URI(redirect_url).to_s,
@@ -82,7 +81,6 @@ module QueueIt
           "EventStartTime"               => format_time( utc_start_time(start_time) ),
           "EventEndTime"                 => format_time( utc_end_time(start_time, end_time) ),
           "EventCulture"                 => event_culture_name,
-          "MaxRedirectsPerMinute"        => "#{max_redirects_per_minute}",
           "MaxNoOfRedirectsPrQueueId"    => "1",
           "QueueNumberValidityInMinutes" => "#{queue_number_validity_in_minutes}",
           "AfterEventLogic"              => "RedirectUsersToTargetPage",
