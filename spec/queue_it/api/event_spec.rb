@@ -1,9 +1,11 @@
 require 'queue_it/api/event'
+require 'queue_it/api/client'
+require 'webmock'
 
 module QueueIt
   module Api
     describe Event do
-      let(:client)            { double(:api_client) }
+      let(:client) { double(:api_client) }
 
       subject(:event_adapter) { Event.new(client) }
 
@@ -92,6 +94,28 @@ module QueueIt
                                          know_user_secret_key: "930f42ca-d9e7-4202-bff4-606e127b1c103980c131-cd8a-4e35-a945-50f7b5102ad6",
                                          max_redirects_per_minute: 30,
                                          queue_number_validity_in_minutes: 15)
+        end
+
+        specify "Request hits proper endpoint" do
+          client        = Client.new("SECURE_KEY")
+          event_adapter = Event.new(client)
+
+          headers = {'Accept' =>'application/json', 'Content-Type' =>'application/json', 'Api-Key' =>'SECURE_KEY'}
+          body    = JSON.generate(valid_create_body)
+
+          stub_request(:put, "https://api2.queue-it.net/2_0_beta/event/fancyevent").with(body: body, headers: headers)
+
+          event_adapter.create_or_update(event_id:             "fancyevent",
+                                         display_name:         "Fancy Event 2015",
+                                         description:          "Foo",
+                                         redirect_url:         "https://example.com/en/events/fancy_event/tickets",
+                                         start_time:           Time.new(2015,04,28,17,25,46, "+02:00"),
+                                         end_time:             Time.new(2015,04,28,21,25,46, "+02:00"),
+                                         event_culture_name:   "en-US",
+                                         know_user_secret_key: "930f42ca-d9e7-4202-bff4-606e127b1c103980c131-cd8a-4e35-a945-50f7b5102ad6",
+                                         max_redirects_per_minute: 15,
+                                         queue_number_validity_in_minutes: 15)
+
         end
 
         private
