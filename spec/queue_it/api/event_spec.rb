@@ -1,23 +1,24 @@
 require 'queue_it/api/event'
 require 'queue_it/api/client'
-require 'webmock'
+require 'webmock/rspec'
 
 module QueueIt
   module Api
     describe Event do
-      let(:client)                   { double(:api_client) }
-      let(:know_user_secret_key)     { "930f42ca-d9e7-4202-bff4-606e127b1c103980c131-cd8a-4e35-a945-50f7b5102ad6" }
-      let(:event_id)                 { "fancyevent" }
-      let(:display_name)             { "Fancy Event 2015" }
-      let(:description)              { "Foo" }
-      let(:redirect_url)             { "https://example.com/en/events/fancy_event/tickets" }
-      let(:time_zone)                { "Europe/Copenhagen" }
-      let(:event_culture_name)       { "en-US" }
-      let(:queue_number_validity_in_minutes) { 15 }
+      let(:event_id) { "fancyevent" }
 
       subject(:event_adapter) { Event.new(client) }
 
       context "#create_or_update" do
+        let(:client)                   { double(:api_client) }
+        let(:know_user_secret_key)     { "930f42ca-d9e7-4202-bff4-606e127b1c103980c131-cd8a-4e35-a945-50f7b5102ad6" }
+        let(:display_name)             { "Fancy Event 2015" }
+        let(:description)              { "Foo" }
+        let(:redirect_url)             { "https://example.com/en/events/fancy_event/tickets" }
+        let(:time_zone)                { "Europe/Copenhagen" }
+        let(:event_culture_name)       { "en-US" }
+        let(:queue_number_validity_in_minutes) { 15 }
+
         specify "Submits proper request" do
           expect(client).to receive(:put).with(event_id, valid_create_body).and_return(double(body:{}))
 
@@ -102,10 +103,10 @@ module QueueIt
           client        = Client.new(api_key: "SECURE_KEY")
           event_adapter = Event.new(client)
 
-          headers = {'Accept' =>'application/json', 'Content-Type' =>'application/json', 'Api-Key' =>'SECURE_KEY'}
-          body    = JSON.generate(valid_create_body)
+          body = JSON.generate(valid_create_body)
 
-          stub_request(:put, "https://api2.queue-it.net/2_0_beta/event/fancyevent").with(body: body, headers: headers)
+          stub = stub_request(:put, "https://api2.queue-it.net/2_0_beta/event/fancyevent")
+            .with(body: body, headers: headers)
 
           event_adapter.create_or_update(event_id:                         event_id,
                                          display_name:                     display_name,
@@ -117,6 +118,7 @@ module QueueIt
                                          know_user_secret_key:             know_user_secret_key,
                                          queue_number_validity_in_minutes: queue_number_validity_in_minutes)
 
+          expect(stub).to have_been_requested
         end
 
         private
@@ -152,6 +154,10 @@ module QueueIt
           }
         end
       end
+
+      private
+
+      let(:headers) { {'Accept' =>'application/json', 'Content-Type' =>'application/json', 'Api-Key' =>'SECURE_KEY'} }
     end
   end
 end
