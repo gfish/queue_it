@@ -86,6 +86,24 @@ module QueueIt
           end.to raise_error(Event::InvalidEventIdFormat)
         end
 
+        specify "Event id has to be no longer than 20 characters" do
+          too_long_event_id = "fancyeventnametoolong"
+
+          expect do
+            event_adapter.create_or_update(event_id:                          too_long_event_id,
+                                           display_name:                      display_name,
+                                           description:                       description,
+                                           redirect_url:                      redirect_url,
+                                           start_time:                        Time.new(2015,04,28,17,25,46, "+02:00"),
+                                           end_time:                          Time.new(2015,04,28,21,25,46, "+02:00"),
+                                           know_user_secret_key:              know_user_secret_key,
+                                           max_redirects_per_minute:          max_redirects_per_minute,
+                                           queue_number_validity_in_minutes:  queue_number_validity_in_minutes,
+                                           time_zone:                         time_zone,)
+          end.to raise_error(Event::InvalidEventIdFormat)
+        end
+
+
         specify "Set custom number of redirects per minute" do
           body = valid_create_body.merge({ "MaxRedirectsPerMinute" => "30", })
 

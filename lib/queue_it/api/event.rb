@@ -45,7 +45,7 @@ module QueueIt
         "Stockholm"         => "W. Europe Standard Time",
       }.freeze
 
-      EVENT_ID_FORMAT = /\A[a-zA-z0-9]{1,512}\z/.freeze
+      EVENT_ID_FORMAT = /\A[a-zA-z0-9]{1,20}\z/.freeze
       QUEUE_IT_ISO8601_TIME_PRECISION = 7
 
       def valid_event_id_format?(event_id)
