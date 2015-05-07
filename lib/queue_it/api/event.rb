@@ -28,6 +28,13 @@ module QueueIt
         perform_request(:put, event_id, attributes)
       end
 
+      def set_speed(event_id:, max_redirects_per_minute:)
+        number_of_redirects = [max_redirects_per_minute.to_i, QUEUE_IT_MINIMAL_NUMBER_OF_REDIRECTS_PER_MINUTE].max
+        attributes          = { "MaxRedirectsPerMinute" => "#{number_of_redirects}" }
+
+        perform_request(:put, "#{event_id}/queue/speed", attributes)
+      end
+
       private
 
       attr_accessor :client
@@ -46,6 +53,7 @@ module QueueIt
 
       EVENT_ID_FORMAT = /\A[a-zA-z0-9]{1,20}\z/.freeze
       QUEUE_IT_ISO8601_TIME_PRECISION = 7
+      QUEUE_IT_MINIMAL_NUMBER_OF_REDIRECTS_PER_MINUTE = 5
 
       def valid_event_id_format?(event_id)
         "#{event_id}".match(EVENT_ID_FORMAT)

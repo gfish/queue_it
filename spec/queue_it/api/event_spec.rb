@@ -155,6 +155,33 @@ module QueueIt
         end
       end
 
+      context "#set_speed" do
+        let(:client)                   { Client.new(api_key: "SECURE_KEY") }
+        let(:max_redirects_per_minute) { 15 }
+
+        specify "Proper speed value is set" do
+          body = { "MaxRedirectsPerMinute" => "15" }
+
+          stub = stub_request(:put, "https://api2.queue-it.net/2_0_beta/event/fancyevent/queue/speed")
+            .with(body: body, headers: headers)
+
+          event_adapter.set_speed(event_id: event_id, max_redirects_per_minute: max_redirects_per_minute)
+
+          expect(stub).to have_been_requested
+        end
+
+        specify "Speed must be greater than 5 so we send at least 5" do
+          expected_body = { "MaxRedirectsPerMinute" => "5" }
+
+          stub = stub_request(:put, "https://api2.queue-it.net/2_0_beta/event/fancyevent/queue/speed")
+            .with(body: expected_body, headers: headers)
+
+          event_adapter.set_speed(event_id: event_id, max_redirects_per_minute: 1)
+
+          expect(stub).to have_been_requested
+        end
+      end
+
       private
 
       let(:headers) { {'Accept' =>'application/json', 'Content-Type' =>'application/json', 'Api-Key' =>'SECURE_KEY'} }
