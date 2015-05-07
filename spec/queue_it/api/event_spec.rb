@@ -36,9 +36,10 @@ module QueueIt
 
         specify "Minimum viable attributes for creating event" do
           body = valid_create_body.merge({
-            "Description"  => "",
-            "EventEndTime" => "2016-04-27T21:25:46.0000000Z",
-            "EventCulture" => event_culture_name,
+            "Description"       => "",
+            "EventEndTime"      => "2016-04-27T21:25:46.0000000Z",
+            "EventCulture"      => event_culture_name,
+            "KnowUserSecretKey" => nil,
           })
 
           expect(client).to receive(:put).with(event_id, body).and_return(double(body:{}))
@@ -46,8 +47,7 @@ module QueueIt
           event_adapter.create_or_update(event_id:             event_id,
                                          display_name:         display_name,
                                          redirect_url:         redirect_url,
-                                         start_time:           Time.utc(2015,04,28,15,25,46),
-                                         know_user_secret_key: know_user_secret_key,)
+                                         start_time:           Time.utc(2015,04,28,15,25,46),)
         end
 
         specify "Set custom time zone in the ruby way" do

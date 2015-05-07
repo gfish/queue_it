@@ -11,7 +11,7 @@ module QueueIt
         self.client = client
       end
 
-      def create_or_update(event_id:, display_name:, start_time:, know_user_secret_key:, redirect_url:, end_time: nil, description: "", max_redirects_per_minute: 15, event_culture_name: "en-US", time_zone: "UTC", queue_number_validity_in_minutes: 15)
+      def create_or_update(event_id:, display_name:, start_time:, know_user_secret_key: nil, redirect_url:, end_time: nil, description: "", max_redirects_per_minute: 15, event_culture_name: "en-US", time_zone: "UTC", queue_number_validity_in_minutes: 15)
         raise InvalidEventIdFormat unless valid_event_id_format?(event_id)
 
         attributes = queue_attributes(
