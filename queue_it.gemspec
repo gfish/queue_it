@@ -6,8 +6,8 @@ require 'queue_it/version'
 Gem::Specification.new do |spec|
   spec.name          = "queue_it"
   spec.version       = QueueIt::VERSION
-  spec.authors       = ["Kasper Grubbe"]
-  spec.email         = ["kawsper@gmail.com"]
+  spec.authors       = ["Billetto"]
+  spec.email         = ["development@billetto.dk"]
   spec.description   = %q{Gem to handle the implementation of http://queue-it.net!}
   spec.summary       = %q{Gem to handle the implementation of http://queue-it.net}
   spec.homepage      = "https://github.com/gfish/queue_it"
