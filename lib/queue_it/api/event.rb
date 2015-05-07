@@ -29,6 +29,8 @@ module QueueIt
       end
 
       def set_speed(event_id:, max_redirects_per_minute:)
+        raise InvalidEventIdFormat unless valid_event_id_format?(event_id)
+
         number_of_redirects = [max_redirects_per_minute.to_i, QUEUE_IT_MINIMAL_NUMBER_OF_REDIRECTS_PER_MINUTE].max
         attributes          = { "MaxRedirectsPerMinute" => "#{number_of_redirects}" }
 

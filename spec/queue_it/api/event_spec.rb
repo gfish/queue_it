@@ -180,6 +180,14 @@ module QueueIt
 
           expect(stub).to have_been_requested
         end
+
+        specify "Event id must have proper format" do
+          invalid_event_id = "/fancyevent"
+
+          expect do
+            event_adapter.set_speed(event_id: invalid_event_id, max_redirects_per_minute: max_redirects_per_minute)
+          end.to raise_error(Event::InvalidEventIdFormat)
+        end
       end
 
       private
