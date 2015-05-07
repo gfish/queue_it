@@ -74,6 +74,74 @@ class EventsController < ApplicationController
 end
 ```
 
+### API
+#### Event
+##### #create_or_update
+Handles: https://api2.queue-it.net/Help/Api/PUT-2_0_beta-event-eventId
+
+Basic usage
+``` ruby
+client = QueueIt::Api::Client.new(api_key: "SECRET_API_KEY")
+
+event = QueueIt::Api::Event.new(client)
+
+event.create_or_update(event_id:     'justatestevent',
+                       display_name: "Test event",
+                       start_time:   Time.now,
+                       redirect_url: 'https://example.com/en/events/not-so-fancy-event/tickets')
+# produces
+{
+  "QueueUrl"=>"http://justatestevent-examplecom.queue-it.net/?c=examplecom&e=justatestevent",                         "EventId"=>"justatestevent",
+  "PreQueueStartLocalTime"=>"2015-05-07T13:29:00.0000000Z",
+  "EventStartLocalTime"=>"2015-05-07T14:29:00.0000000Z",
+  "EventEndLocalTime"=>"2016-05-06T19:29:00.0000000Z",
+  "MaxRedirectsPerMinute"=>"5",
+  "QueueStatus"=>"Running",
+  "LastPassedAutoTestRun"=>"",
+  "DisplayName"=>"Test event",
+  "RedirectUrl"=>"https://example.com/en/events/not-so-fancy-event/tickets",
+  "Description"=>"",
+  "TimeZone"=>"UTC",
+  "PreQueueStartTime"=>"2015-05-07T13:29:00.0000000Z",
+  "EventStartTime"=>"2015-05-07T14:29:00.0000000Z",
+  "EventEndTime"=>"2016-05-06T20:29:00.0000000Z",
+  "EventCulture"=>"en-US",
+  "MaxNoOfRedirectsPrQueueId"=>"1",
+  "QueueNumberValidityInMinutes"=>"15",
+  "AfterEventLogic"=>"RedirectUsersToTargetPage",
+  "AfterEventRedirectPage"=>"",
+  "UseSSL"=>"Auto",
+  "JavaScriptSupportEnabled"=>"False",
+  "TargetUrlSupportEnabled"=>"False",
+  "SafetyNetMode"=>"Disabled",
+  "KnowUserSecurity"=>"MD5Hash",
+  "KnowUserSecretKey"=>"SECRET",
+  "CustomLayout"=>"Default layout by Queue-it",
+  "XUsersInFrontOfYou"=>"0",
+  "TargetUrlValidationRegex"=>"",
+  "DomainAlias"=>"justatestevent-examplecom.queue-it.net",
+  "AllowedCustomLayouts"=>[],
+  "BrowserCultureEnabled"=>"True",
+  "IdleQueueLogic"=>"UseBeforePage",
+  "IdleQueueRedirectPage"=>""
+}
+```
+
+Available named attributes
+``` ruby
+event_id:
+display_name:
+start_time:
+end_time:
+know_user_secret_key:
+redirect_url:
+description:
+max_redirects_per_minute:
+event_culture_name:
+time_zone:
+queue_number_validity_in_minutes:
+```
+
 ## Contributing
 
 1. Fork it
