@@ -104,7 +104,7 @@ module QueueIt
         end
 
         specify "Request hits proper endpoint" do
-          client        = Client.new("SECURE_KEY")
+          client        = Client.new(api_key: "SECURE_KEY")
           event_adapter = Event.new(client)
 
           headers = {'Accept' =>'application/json', 'Content-Type' =>'application/json', 'Api-Key' =>'SECURE_KEY'}

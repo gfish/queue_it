@@ -6,7 +6,7 @@ require 'pry'
 module QueueIt
   module Api
     describe Client do
-      subject(:client) { described_class.new("SECURE_KEY") }
+      subject(:client) { described_class.new(api_key: "SECURE_KEY") }
 
       specify "PUT data under given endpoint & path in JSON format" do
         request_hash  = { "Request" => true }
@@ -72,7 +72,7 @@ module QueueIt
       end
 
       specify "debugging mode puts to STDOUT" do
-        client = Client.new("SECURE_KEY", debug: true)
+        client = Client.new(api_key: "SECURE_KEY", debug: true)
 
         request_hash  = { "Request"  => true }
 
