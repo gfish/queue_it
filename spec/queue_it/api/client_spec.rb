@@ -71,6 +71,16 @@ module QueueIt
         expect{ client.put("fancy_event", "{}") }.to raise_error(ServiceUnavailable)
       end
 
+      specify "debugging mode puts to STDOUT" do
+        client = Client.new("SECURE_KEY", debug: true)
+
+        request_hash  = { "Request"  => true }
+
+        stub_successful_put(request_hash, {})
+
+        expect { client.put("fancy_event", request_hash) }.to output(/request: {"Request":true}/).to_stdout_from_any_process
+      end
+
       private
 
       def endpoint_url

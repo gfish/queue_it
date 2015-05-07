@@ -10,8 +10,9 @@ module QueueIt
       JSON_FORMAT  = "application/json".freeze
       ENDPOINT_URL = URI("https://api2.queue-it.net/2_0_beta/event").freeze
 
-      def initialize(api_key)
+      def initialize(api_key, debug: false)
         self.api_key = api_key
+        self.debug   = debug
       end
 
       def put(path, body)
@@ -20,17 +21,7 @@ module QueueIt
 
       private
 
-      attr_accessor :api_key
-
-      def connection
-        @connection ||= Faraday.new(options) do |builder|
-          builder.request  :json
-          builder.response :json, content_type: /\bjson$/
-
-          builder.adapter  Faraday.default_adapter
-          builder.use      FaradayMiddleware::RaiseHttpException
-        end
-      end
+      attr_accessor :api_key, :debug
 
       def options
         {
@@ -41,6 +32,21 @@ module QueueIt
             "Api-Key" => api_key,
           },
         }
+      end
+
+      def debug?
+        debug
+      end
+
+      def connection
+        @connection ||= Faraday.new(options) do |builder|
+          builder.request  :json
+          builder.response :logger, nil, { bodies: true } if debug?
+          builder.response :json, content_type: /\bjson$/
+
+          builder.adapter  Faraday.default_adapter
+          builder.use      FaradayMiddleware::RaiseHttpException
+        end
       end
     end
   end
