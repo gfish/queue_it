@@ -33,8 +33,8 @@ module QueueIt
 
       attr_accessor :client
 
-      ONE_YEAR = 31557600.freeze
-      ONE_HOUR = 3600.freeze
+      ONE_YEAR = 31557600
+      ONE_HOUR = 3600
 
       MICROSOFT_TIME_ZONE_INDEX_VALUES = {
         "Europe/Copenhagen" => "Romance Standard Time",
