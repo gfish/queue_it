@@ -46,6 +46,7 @@ module QueueIt
       }.freeze
 
       EVENT_ID_FORMAT = /\A[a-zA-z0-9]{1,512}\z/.freeze
+      QUEUE_IT_ISO8601_TIME_PRECISION = 7
 
       def valid_event_id_format?(event_id)
         "#{event_id}".match(EVENT_ID_FORMAT)
@@ -63,6 +64,10 @@ module QueueIt
         start_time.utc - ONE_HOUR
       end
 
+      def format_time(time)
+        time.iso8601(QUEUE_IT_ISO8601_TIME_PRECISION)
+      end
+
       def translate_time_zone(time_zone)
         MICROSOFT_TIME_ZONE_INDEX_VALUES.fetch(time_zone, time_zone)
       end
@@ -73,9 +78,9 @@ module QueueIt
           "RedirectUrl"                  => URI(redirect_url).to_s,
           "Description"                  => description,
           "TimeZone"                     => translate_time_zone(time_zone),
-          "PreQueueStartTime"            => pre_queue_start_time(start_time).iso8601(7),
-          "EventStartTime"               => utc_start_time(start_time).iso8601(7),
-          "EventEndTime"                 => utc_end_time(start_time, end_time).iso8601(7),
+          "PreQueueStartTime"            => format_time( pre_queue_start_time(start_time) ),
+          "EventStartTime"               => format_time( utc_start_time(start_time) ),
+          "EventEndTime"                 => format_time( utc_end_time(start_time, end_time) ),
           "EventCulture"                 => event_culture_name,
           "MaxRedirectsPerMinute"        => "#{max_redirects_per_minute}",
           "MaxNoOfRedirectsPrQueueId"    => "1",
