@@ -1,7 +1,6 @@
 require 'json'
 require 'webmock/rspec'
 require 'queue_it/api/client'
-require 'pry'
 
 module QueueIt
   module Api
