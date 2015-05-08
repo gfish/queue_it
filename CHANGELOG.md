@@ -7,6 +7,7 @@
   * Debugging mode present
 * `QueueIt::Api::Event`
     * Creates or updates queue with some basic setup which fits our current needs
+    * Sets queue speed
 
 ### 1.0.0 - 2014-11-06
 

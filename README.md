@@ -75,14 +75,20 @@ end
 ```
 
 ### API
+#### Client
+
+Initialize client to pass it as a dependency to `Event` instance.
+
+``` ruby
+client = QueueIt::Api::Client.new(api_key: "SECRET_API_KEY")
+```
+
 #### Event
 ##### #create_or_update
 Handles: https://api2.queue-it.net/Help/Api/PUT-2_0_beta-event-eventId
 
 Basic usage
 ``` ruby
-client = QueueIt::Api::Client.new(api_key: "SECRET_API_KEY")
-
 event = QueueIt::Api::Event.new(client)
 
 event.create_or_update(event_id:     'justatestevent',
@@ -91,11 +97,11 @@ event.create_or_update(event_id:     'justatestevent',
                        redirect_url: 'https://example.com/en/events/not-so-fancy-event/tickets')
 # produces
 {
-  "QueueUrl"=>"http://justatestevent-examplecom.queue-it.net/?c=examplecom&e=justatestevent",                         "EventId"=>"justatestevent",
+  "QueueUrl"=>"http://justatestevent-examplecom.queue-it.net/?c=examplecom&e=justatestevent",
+  "EventId"=>"justatestevent",
   "PreQueueStartLocalTime"=>"2015-05-07T13:29:00.0000000Z",
   "EventStartLocalTime"=>"2015-05-07T14:29:00.0000000Z",
   "EventEndLocalTime"=>"2016-05-06T19:29:00.0000000Z",
-  "MaxRedirectsPerMinute"=>"5",
   "QueueStatus"=>"Running",
   "LastPassedAutoTestRun"=>"",
   "DisplayName"=>"Test event",
@@ -140,6 +146,18 @@ max_redirects_per_minute:
 event_culture_name:
 time_zone:
 queue_number_validity_in_minutes:
+```
+
+##### #set_speed
+
+Set redirect speed on an event queue.
+
+See: https://api2.queue-it.net/Help/Api/PUT-2_0_beta-event-eventId-queue-speed
+
+``` ruby
+event = QueueIt::Api::Event.new(client)
+
+event.set_speed(event_id: "justatestevent", max_redirects_per_minute: 15)
 ```
 
 ## Contributing
