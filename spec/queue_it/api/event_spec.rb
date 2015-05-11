@@ -17,6 +17,9 @@ module QueueIt
         let(:redirect_url)             { "https://example.com/en/events/fancy_event/tickets" }
         let(:time_zone)                { "Europe/Copenhagen" }
         let(:event_culture_name)       { "en-US" }
+        let(:pre_queue_start_time)     { Time.new(2015,04,28,15,25,46, "+02:00") }
+        let(:start_time)               { Time.new(2015,04,28,17,25,46, "+02:00") }
+        let(:end_time)                 { Time.new(2015,04,28,21,25,46, "+02:00") }
         let(:queue_number_validity_in_minutes) { 15 }
 
         specify "Submits proper request" do
@@ -26,9 +29,9 @@ module QueueIt
                                          display_name:                     display_name,
                                          description:                      description,
                                          redirect_url:                     redirect_url,
-                                         pre_queue_start_time:             Time.new(2015,04,28,15,25,46, "+02:00"),
-                                         start_time:                       Time.new(2015,04,28,17,25,46, "+02:00"),
-                                         end_time:                         Time.new(2015,04,28,21,25,46, "+02:00"),
+                                         pre_queue_start_time:             pre_queue_start_time,
+                                         start_time:                       start_time,
+                                         end_time:                         end_time,
                                          event_culture_name:               event_culture_name,
                                          know_user_secret_key:             know_user_secret_key,
                                          queue_number_validity_in_minutes: queue_number_validity_in_minutes)
@@ -62,9 +65,9 @@ module QueueIt
                                          display_name:                      display_name,
                                          description:                       description,
                                          redirect_url:                      redirect_url,
-                                         pre_queue_start_time:              Time.new(2015,04,28,15,25,46, "+02:00"),
-                                         start_time:                        Time.new(2015,04,28,17,25,46, "+02:00"),
-                                         end_time:                          Time.new(2015,04,28,21,25,46, "+02:00"),
+                                         pre_queue_start_time:              pre_queue_start_time,
+                                         start_time:                        start_time,
+                                         end_time:                          end_time,
                                          know_user_secret_key:              know_user_secret_key,
                                          queue_number_validity_in_minutes:  queue_number_validity_in_minutes,
                                          time_zone:                         time_zone,)
@@ -78,9 +81,9 @@ module QueueIt
                                            display_name:                      display_name,
                                            description:                       description,
                                            redirect_url:                      redirect_url,
-                                           pre_queue_start_time:              Time.new(2015,04,28,15,25,46, "+02:00"),
-                                           start_time:                        Time.new(2015,04,28,17,25,46, "+02:00"),
-                                           end_time:                          Time.new(2015,04,28,21,25,46, "+02:00"),
+                                           pre_queue_start_time:              pre_queue_start_time,
+                                           start_time:                        start_time,
+                                           end_time:                          end_time,
                                            know_user_secret_key:              know_user_secret_key,
                                            queue_number_validity_in_minutes:  queue_number_validity_in_minutes,
                                            time_zone:                         time_zone,)
@@ -95,9 +98,9 @@ module QueueIt
                                            display_name:                      display_name,
                                            description:                       description,
                                            redirect_url:                      redirect_url,
-                                           pre_queue_start_time:              Time.new(2015,04,28,15,25,46, "+02:00"),
-                                           start_time:                        Time.new(2015,04,28,17,25,46, "+02:00"),
-                                           end_time:                          Time.new(2015,04,28,21,25,46, "+02:00"),
+                                           pre_queue_start_time:              pre_queue_start_time,
+                                           start_time:                        start_time,
+                                           end_time:                          end_time,
                                            know_user_secret_key:              know_user_secret_key,
                                            queue_number_validity_in_minutes:  queue_number_validity_in_minutes,
                                            time_zone:                         time_zone,)
@@ -117,9 +120,9 @@ module QueueIt
                                          display_name:                     display_name,
                                          description:                      description,
                                          redirect_url:                     redirect_url,
-                                         pre_queue_start_time:             Time.new(2015,04,28,15,25,46, "+02:00"),
-                                         start_time:                       Time.new(2015,04,28,17,25,46, "+02:00"),
-                                         end_time:                         Time.new(2015,04,28,21,25,46, "+02:00"),
+                                         pre_queue_start_time:             pre_queue_start_time,
+                                         start_time:                       start_time,
+                                         end_time:                         end_time,
                                          event_culture_name:               event_culture_name,
                                          know_user_secret_key:             know_user_secret_key,
                                          queue_number_validity_in_minutes: queue_number_validity_in_minutes)
