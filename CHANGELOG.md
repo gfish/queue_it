@@ -1,3 +1,8 @@
+### 1.1.1 - 2015-05-11
+
+* `QueueIt::Api::Event`
+  * `#create_or_update` accepts `pre_queue_start_time`
+
 ### 1.1.0 - 2015-05-07
 
 * Basic Api 2.0.beta integration

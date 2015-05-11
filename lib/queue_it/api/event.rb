@@ -11,10 +11,11 @@ module QueueIt
         self.client = client
       end
 
-      def create_or_update(event_id:, display_name:, start_time:, know_user_secret_key: nil, redirect_url:, end_time: nil, description: "", event_culture_name: "en-US", time_zone: "UTC", queue_number_validity_in_minutes: 15)
+      def create_or_update(event_id:, display_name:, start_time:, pre_queue_start_time:nil, know_user_secret_key: nil, redirect_url:, end_time: nil, description: "", event_culture_name: "en-US", time_zone: "UTC", queue_number_validity_in_minutes: 15)
         raise InvalidEventIdFormat unless valid_event_id_format?(event_id)
 
         attributes = queue_attributes(
+          pre_queue_start_time:             pre_queue_start_time,
           start_time:                       start_time,
           end_time:                         end_time,
           know_user_secret_key:             know_user_secret_key,
@@ -69,8 +70,8 @@ module QueueIt
         end_time && end_time.utc || utc_start_time(start_time) + ONE_YEAR
       end
 
-      def pre_queue_start_time(start_time)
-        start_time.utc - ONE_HOUR
+      def utc_pre_queue_start_time(pre_queue_start_time, start_time)
+        pre_queue_start_time && pre_queue_start_time.utc || start_time.utc - ONE_HOUR
       end
 
       def format_time(time)
@@ -81,13 +82,13 @@ module QueueIt
         MICROSOFT_TIME_ZONE_INDEX_VALUES.fetch(time_zone, time_zone)
       end
 
-      def queue_attributes(start_time:, end_time:, know_user_secret_key:, redirect_url:, description:, display_name:, event_culture_name:, queue_number_validity_in_minutes:, time_zone:)
+      def queue_attributes(pre_queue_start_time:, start_time:, end_time:, know_user_secret_key:, redirect_url:, description:, display_name:, event_culture_name:, queue_number_validity_in_minutes:, time_zone:)
         {
           "DisplayName"                  => display_name,
           "RedirectUrl"                  => URI(redirect_url).to_s,
           "Description"                  => description,
           "TimeZone"                     => translate_time_zone(time_zone),
-          "PreQueueStartTime"            => format_time( pre_queue_start_time(start_time) ),
+          "PreQueueStartTime"            => format_time( utc_pre_queue_start_time(pre_queue_start_time, start_time) ),
           "EventStartTime"               => format_time( utc_start_time(start_time) ),
           "EventEndTime"                 => format_time( utc_end_time(start_time, end_time) ),
           "EventCulture"                 => event_culture_name,
