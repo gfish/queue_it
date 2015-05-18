@@ -53,6 +53,7 @@ module QueueIt
         "Europe/Dublin"     => "GMT Standard Time",
         "Paris"             => "Romance Standard Time",
         "Stockholm"         => "W. Europe Standard Time",
+        "Europe/Rome"       => "W. Europe Standard Time",
       }.freeze
 
       EVENT_ID_FORMAT = /\A[a-zA-z0-9]{1,20}\z/.freeze
