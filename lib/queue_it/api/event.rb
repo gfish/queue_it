@@ -50,6 +50,7 @@ module QueueIt
         "Europe/Helsinki"   => "FLE Standard Time",
         "Europe/London"     => "GMT Standard Time",
         "Europe/Paris"      => "GMT Standard Time",
+        "Europe/Dublin"     => "GMT Standard Time",
         "Paris"             => "Romance Standard Time",
         "Stockholm"         => "W. Europe Standard Time",
       }.freeze
