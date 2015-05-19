@@ -46,14 +46,27 @@ module QueueIt
       ONE_HOUR = 3600
 
       MICROSOFT_TIME_ZONE_INDEX_VALUES = {
-        "Europe/Copenhagen" => "Romance Standard Time",
         "Europe/Helsinki"   => "FLE Standard Time",
+        "Helsinki"          => "FLE Standard Time",
+        
         "Europe/London"     => "GMT Standard Time",
-        "Europe/Paris"      => "GMT Standard Time",
+        "London"            => "GMT Standard Time",
+        "Edinburgh"         => "GMT Standard Time",
+        
         "Europe/Dublin"     => "GMT Standard Time",
+        "Dublin"            => "GMT Standard Time",
+        
+        "Europe/Copenhagen" => "Romance Standard Time",
+        "Copenhagen"        => "Romance Standard Time",
+        
+        "Europe/Paris"      => "Romance Standard Time",
         "Paris"             => "Romance Standard Time",
+        
+        "Europe/Stockholm"  => "W. Europe Standard Time",
         "Stockholm"         => "W. Europe Standard Time",
+        
         "Europe/Rome"       => "W. Europe Standard Time",
+        "Rome"              => "W. Europe Standard Time",
       }.freeze
 
       EVENT_ID_FORMAT = /\A[a-zA-z0-9]{1,20}\z/.freeze
