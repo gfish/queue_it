@@ -1,3 +1,9 @@
+### 1.1.2 - 2015-05-19
+
+* More time zone mappings.
+* Fixed discrepancy between 'Paris' and 'Europe/Paris'
+  timezone mapping to Microsoft zones.
+
 ### 1.1.1 - 2015-05-11
 
 * `QueueIt::Api::Event`
