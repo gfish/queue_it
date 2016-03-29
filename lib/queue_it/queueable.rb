@@ -17,7 +17,9 @@ module QueueIt
 
       def destroy_all_queue_it_sessions
         session_variable_prefix = queue_it_session_variable("")
-        session.reject!{ |session_key| session_key.start_with?(session_variable_prefix) }
+        session.keys.select{ |session_key| session_key.start_with?(session_variable_prefix) }.each do |key|
+          session.delete(key)
+        end
       end
 
       def destroy_queue_it_session(event_id)
