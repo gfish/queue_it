@@ -1,3 +1,7 @@
+### 1.1.4 - 2016-04-06
+
+* Solve gem publishing issue - no changes comparing to 1.1.3
+
 ### 1.1.3 - 2016-04-06
 
 * do not rely on ActionDispatch::Resuest::Session API that was removed in Rails 4.2
