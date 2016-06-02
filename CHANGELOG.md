@@ -1,3 +1,7 @@
+### 1.1.5 - 2016-06-02
+
+* Remove warning about circular argument reference - api_key in Ruby 2.3.1
+
 ### 1.1.4 - 2016-04-06
 
 * Solve gem publishing issue - no changes comparing to 1.1.3
