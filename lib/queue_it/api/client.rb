@@ -10,7 +10,7 @@ module QueueIt
       JSON_FORMAT  = "application/json".freeze
       ENDPOINT_URL = URI("https://api2.queue-it.net/2_0_beta/event").freeze
 
-      def initialize(api_key: api_key, debug: false)
+      def initialize(api_key: nil, debug: false)
         self.api_key = api_key
         self.debug   = debug
       end
