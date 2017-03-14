@@ -1,5 +1,5 @@
 require "queue_it/version"
-require "queue_it/known_user_checker"
+require "queue_it/extract_queue_number"
 require "queue_it/api/client"
 require "queue_it/api/event"
 

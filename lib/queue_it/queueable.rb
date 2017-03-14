@@ -38,7 +38,7 @@ module QueueIt
         return if session[queue_it_session_variable(event_id)].present?
 
         begin
-          queue_number = QueueIt::KnownUserChecker.new.(
+          queue_number = QueueIt::ExtractQueueNumber.new.(
             secret_key: secret_key,
             request_url: request_url,
             request_params: params)

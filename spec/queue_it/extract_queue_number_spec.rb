@@ -1,9 +1,9 @@
 require 'queue_it'
 
 module QueueIt
-  RSpec.describe KnownUserChecker do
+  RSpec.describe ExtractQueueNumber do
     let(:secret_key) { "1c9950a7-f716-432e-b5fa-b148d00480db" }
-    let(:service) { KnownUserChecker.new }
+    let(:service) { ExtractQueueNumber.new }
 
     specify "happy path" do
       url = "https://example.com/some/path?q=2647344b-e639-4cd6-8a77-3a8801553716&p=053eeb2c-b272-41a2-aacf-2742bc99676c&ts=1489367379&c=examplecompany&e=someeventid42&rt=Queue&h=bbaf9807496ecb687c85bfcc1a8369e1"

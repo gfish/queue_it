@@ -1,7 +1,7 @@
 require 'digest/md5'
 
 module QueueIt
-  class KnownUserChecker
+  class ExtractQueueNumber
     def call(secret_key:, request_url:, request_params:)
       encrypted_place_in_queue = request_params['p']
       expected_hash = request_params['h']
