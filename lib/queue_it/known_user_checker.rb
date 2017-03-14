@@ -44,14 +44,9 @@ module QueueIt
     # TODO add timestamp check
     def verify_md5_hash?(url, expected_hash )
       url_no_hash = "#{ url[ 0..-33 ] }#{ shared_event_key }"
-      actual_hash = Digest::MD5.hexdigest( utf8_encode( url_no_hash ) )
+      actual_hash = Digest::MD5.hexdigest(url_no_hash)
 
       return (expected_hash == actual_hash)
-    end
-
-    def utf8_encode(s)
-      s.encode('UTF-8', 'UTF-8')
-      s
     end
   end
 end
