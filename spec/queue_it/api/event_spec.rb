@@ -148,7 +148,7 @@ module QueueIt
             "AfterEventRedirectPage"       => "",
             "UseSSL"                       => "Auto",
             "JavaScriptSupportEnabled"     => "False",
-            "TargetUrlSupportEnabled"      => "False",
+            "TargetUrlSupportEnabled"      => "True",
             "SafetyNetMode"                => "Disabled",
             "KnowUserSecurity"             => "MD5Hash",
             "KnowUserSecretKey"            => know_user_secret_key,

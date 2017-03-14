@@ -48,23 +48,23 @@ module QueueIt
       MICROSOFT_TIME_ZONE_INDEX_VALUES = {
         "Europe/Helsinki"   => "FLE Standard Time",
         "Helsinki"          => "FLE Standard Time",
-        
+
         "Europe/London"     => "GMT Standard Time",
         "London"            => "GMT Standard Time",
         "Edinburgh"         => "GMT Standard Time",
-        
+
         "Europe/Dublin"     => "GMT Standard Time",
         "Dublin"            => "GMT Standard Time",
-        
+
         "Europe/Copenhagen" => "Romance Standard Time",
         "Copenhagen"        => "Romance Standard Time",
-        
+
         "Europe/Paris"      => "Romance Standard Time",
         "Paris"             => "Romance Standard Time",
-        
+
         "Europe/Stockholm"  => "W. Europe Standard Time",
         "Stockholm"         => "W. Europe Standard Time",
-        
+
         "Europe/Rome"       => "W. Europe Standard Time",
         "Rome"              => "W. Europe Standard Time",
       }.freeze
@@ -113,7 +113,7 @@ module QueueIt
           "AfterEventRedirectPage"       => "",
           "UseSSL"                       => "Auto",
           "JavaScriptSupportEnabled"     => "False",
-          "TargetUrlSupportEnabled"      => "False",
+          "TargetUrlSupportEnabled"      => "True",
           "SafetyNetMode"                => "Disabled",
           "KnowUserSecurity"             => "MD5Hash",
           "KnowUserSecretKey"            => know_user_secret_key,
