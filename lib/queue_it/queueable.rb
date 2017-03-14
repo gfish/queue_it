@@ -3,12 +3,13 @@ module QueueIt
     extend ActiveSupport::Concern
 
     included do
-      def protect_with_queue!(known_user_secret_key, event_id, customer_id)
+      def protect_with_queue!(known_user_secret_key, event_id, customer_id, redirect_url: nil)
         create_or_verify_queue_it_session(known_user_secret_key,
                                           event_id,
                                           customer_id,
-                                          request.url,
-                                          params)
+                                          request.original_url,
+                                          params,
+                                          redirect_url)
       end
 
       def queue_it_queue_id(event_id)
@@ -32,7 +33,7 @@ module QueueIt
 
     private
 
-      def create_or_verify_queue_it_session(secret_key, event_id, customer_id, request_url, params)
+      def create_or_verify_queue_it_session(secret_key, event_id, customer_id, request_url, params, current_tickets_url)
         # If there exists a session, we return. This needs to be refactored when we start to look at the timestamp parameter
         return if session[queue_it_session_variable(event_id)].present?
 
@@ -46,7 +47,7 @@ module QueueIt
             redirect_to QueueIt::UrlBuilder.clean_url(request_url) and return
           end
         rescue QueueIt::MissingArgsGiven
-          queue_url = QueueIt::UrlBuilder.build_queue_url(customer_id, event_id)
+          queue_url = QueueIt::UrlBuilder.build_queue_url(customer_id, event_id, current_tickets_url)
           destroy_all_queue_it_sessions
           render("queue_it/enter_queue", layout: false, locals: { queue_it_url: queue_url }) and return
         rescue QueueIt::NotAuthorized

@@ -2,8 +2,8 @@ require 'addressable/uri'
 
 module QueueIt
   class UrlBuilder
-    def self.build_queue_url(customer_id, event_id)
-      "http://q.queue-it.net/?c=#{customer_id}&e=#{event_id}"
+    def self.build_queue_url(customer_id, event_id, redirect_url)
+      "http://q.queue-it.net/?c=#{customer_id}&e=#{event_id}&t=#{CGI.escape(redirect_url)}"
     end
 
     def self.build_cancel_url(customer_id, event_id, queue_id = nil)
