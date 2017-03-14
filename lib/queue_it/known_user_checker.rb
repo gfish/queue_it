@@ -12,7 +12,6 @@ module QueueIt
       self.customer_id      = customer_id
     end
 
-    # This is bound to Rails!
     def create_or_verify_queue_it_session!(url, params)
       queue_id                  = params['q' ] # A QuID, the user’s queue ID
       encrypted_place_in_queue  = params['p' ] # A text, an encrypted version of the user’s queue number
@@ -23,14 +22,16 @@ module QueueIt
     end
 
     def verify_request!(url, queue_id, encrypted_place_in_queue, expected_hash, timestamp)
-      if verify_md5_hash?(url, queue_id, encrypted_place_in_queue, expected_hash, timestamp)
+      raise QueueIt::MissingArgsGiven.new if [ url, queue_id, encrypted_place_in_queue, timestamp, expected_hash ].any?(&:nil?)
+
+      if verify_md5_hash?(url, expected_hash)
         decrypted_place_in_queue(encrypted_place_in_queue)
       else
         raise QueueIt::NotAuthorized.new
       end
     end
 
-  private
+    private
 
     # uses one char of each string at a given starting point
     # given b852fe78-0d10-4254-823c-f8749c401153 should get 4212870
@@ -41,20 +42,16 @@ module QueueIt
     end
 
     # TODO add timestamp check
-    def verify_md5_hash?(url, queue_id, encrypted_place_in_queue, expected_hash, timestamp)
-      raise QueueIt::MissingArgsGiven.new if [ url, queue_id, encrypted_place_in_queue, timestamp, expected_hash ].any?( &:nil? )
-
-      url_no_hash = "#{ url[ 0..-33 ] }#{ shared_event_key }" # Remove hash value and add SharedEventKey
+    def verify_md5_hash?(url, expected_hash )
+      url_no_hash = "#{ url[ 0..-33 ] }#{ shared_event_key }"
       actual_hash = Digest::MD5.hexdigest( utf8_encode( url_no_hash ) )
 
-      return false unless expected_hash == actual_hash
-      true
+      return (expected_hash == actual_hash)
     end
 
     def utf8_encode(s)
       s.encode('UTF-8', 'UTF-8')
       s
     end
-
   end
 end
