@@ -1,31 +1,17 @@
 require 'digest/md5'
-require "queue_it/url_builder"
 
 module QueueIt
   class KnownUserChecker
+    def call(secret_key:, request_url:, request_params:)
+      queue_id = request_params['q'] # A QuID, the user’s queue ID
+      encrypted_place_in_queue = request_params['p'] # A text, an encrypted version of the user’s queue number
+      expected_hash = request_params['h'] # An integer calculated hash
+      timestamp = request_params['ts'] # An integer timestamp counting number of seconds since 1970-01-01 00:00:00 UTC
 
-    attr_accessor :shared_event_key, :event_id, :customer_id
+      raise QueueIt::MissingArgsGiven.new if [ request_url, queue_id, encrypted_place_in_queue, timestamp, expected_hash ].any?(&:nil?)
 
-    def initialize(shared_event_key, event_id, customer_id)
-      self.shared_event_key = shared_event_key
-      self.event_id         = event_id
-      self.customer_id      = customer_id
-    end
-
-    def create_or_verify_queue_it_session!(url, params)
-      queue_id                  = params['q' ] # A QuID, the user’s queue ID
-      encrypted_place_in_queue  = params['p' ] # A text, an encrypted version of the user’s queue number
-      expected_hash             = params['h' ] # An integer calculated hash
-      timestamp                 = params['ts'] # An integer timestamp counting number of seconds since 1970-01-01 00:00:00 UTC
-
-      verify_request!(url, queue_id, encrypted_place_in_queue, expected_hash, timestamp)
-    end
-
-    def verify_request!(url, queue_id, encrypted_place_in_queue, expected_hash, timestamp)
-      raise QueueIt::MissingArgsGiven.new if [ url, queue_id, encrypted_place_in_queue, timestamp, expected_hash ].any?(&:nil?)
-
-      if verify_md5_hash?(url, expected_hash)
-        decrypted_place_in_queue(encrypted_place_in_queue)
+      if verify_md5_hash?(request_url, expected_hash, secret_key)
+        return decrypted_place_in_queue(encrypted_place_in_queue)
       else
         raise QueueIt::NotAuthorized.new
       end
@@ -42,8 +28,8 @@ module QueueIt
     end
 
     # TODO add timestamp check
-    def verify_md5_hash?(url, expected_hash )
-      url_no_hash = "#{ url[ 0..-33 ] }#{ shared_event_key }"
+    def verify_md5_hash?(url, expected_hash, secret_key)
+      url_no_hash = "#{url[ 0..-33 ]}#{secret_key}"
       actual_hash = Digest::MD5.hexdigest(url_no_hash)
 
       return (expected_hash == actual_hash)

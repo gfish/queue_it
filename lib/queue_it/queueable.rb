@@ -38,8 +38,11 @@ module QueueIt
         return if session[queue_it_session_variable(event_id)].present?
 
         begin
-          user_checker                                 = QueueIt::KnownUserChecker.new(secret_key, event_id, customer_id)
-          session[queue_it_session_variable(event_id)] = user_checker.create_or_verify_queue_it_session!(request_url, params)
+          queue_number = QueueIt::KnownUserChecker.new.(
+            secret_key: secret_key,
+            request_url: request_url,
+            request_params: params)
+          session[queue_it_session_variable(event_id)] = queue_number
 
           # If the request URL contains queue_it params we remove them and redirect
           # this is done to mask the params we use to create and verify the queue_it session
@@ -56,8 +59,6 @@ module QueueIt
           render("queue_it/cheating_queue", layout: false, locals: { queue_it_url: queue_cancel_url }) and return
         end
       end
-
     end
-
   end
 end
