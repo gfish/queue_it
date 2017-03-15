@@ -1,3 +1,8 @@
+### 1.1.6 - 2017-03-15
+
+* Now by default, during creation event, we support using redirect urls
+* Added possibility to pass redirect url for queue it
+
 ### 1.1.5 - 2016-06-02
 
 * Remove warning about circular argument reference - api_key in Ruby 2.3.1
