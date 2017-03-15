@@ -1,3 +1,5 @@
+require 'queue_it/url_builder'
+
 module QueueIt
   module Queueable
     extend ActiveSupport::Concern
