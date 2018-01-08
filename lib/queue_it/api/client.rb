@@ -8,7 +8,7 @@ module QueueIt
   module Api
     class Client
       JSON_FORMAT  = "application/json".freeze
-      ENDPOINT_URL = URI("https://api2.queue-it.net/2_0_beta/event").freeze
+      ENDPOINT_URL = URI("https://api2.queue-it.net/2_0/event").freeze
 
       def initialize(api_key: nil, debug: false)
         self.api_key = api_key
