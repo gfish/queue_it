@@ -113,7 +113,7 @@ module QueueIt
 
           body = JSON.generate(valid_create_body)
 
-          stub = stub_request(:put, "https://api2.queue-it.net/2_0_beta/event/fancyevent")
+          stub = stub_request(:put, "https://api2.queue-it.net/2_0/event/fancyevent")
             .with(body: body, headers: headers)
 
           event_adapter.create_or_update(event_id:                         event_id,
@@ -171,7 +171,7 @@ module QueueIt
         specify "Proper speed value is set" do
           body = { "MaxRedirectsPerMinute" => "15" }
 
-          stub = stub_request(:put, "https://api2.queue-it.net/2_0_beta/event/fancyevent/queue/speed")
+          stub = stub_request(:put, "https://api2.queue-it.net/2_0/event/fancyevent/queue/speed")
             .with(body: body, headers: headers)
 
           event_adapter.set_speed(event_id: event_id, max_redirects_per_minute: max_redirects_per_minute)
@@ -182,7 +182,7 @@ module QueueIt
         specify "Speed must be greater than 5 so we send at least 5" do
           expected_body = { "MaxRedirectsPerMinute" => "5" }
 
-          stub = stub_request(:put, "https://api2.queue-it.net/2_0_beta/event/fancyevent/queue/speed")
+          stub = stub_request(:put, "https://api2.queue-it.net/2_0/event/fancyevent/queue/speed")
             .with(body: expected_body, headers: headers)
 
           event_adapter.set_speed(event_id: event_id, max_redirects_per_minute: 1)
