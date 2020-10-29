@@ -5,7 +5,7 @@ require 'queue_it/api/client'
 module QueueIt
   module Api
     describe Client do
-      subject(:client) { described_class.new(api_key: "SECURE_KEY") }
+      subject(:client) { Client.new("customerid", api_key: "SECURE_KEY") }
 
       specify "PUT data under given endpoint & path in JSON format" do
         request_hash  = { "Request" => true }
@@ -71,7 +71,7 @@ module QueueIt
       end
 
       specify "debugging mode puts to STDOUT" do
-        client = Client.new(api_key: "SECURE_KEY", debug: true)
+        client = Client.new("customerid", api_key: "SECURE_KEY", debug: true)
 
         request_hash  = { "Request"  => true }
 
@@ -83,7 +83,7 @@ module QueueIt
       private
 
       def endpoint_url
-        Client::ENDPOINT_URL.to_s + "/fancy_event"
+        "https://customerid.api2.queue-it.net/2_0/event/fancy_event"
       end
 
       def stub_request_factory(method: :put, status: 200, request_body: "{}", response_body: "{}", content_type: "application/json")

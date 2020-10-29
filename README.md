@@ -80,7 +80,7 @@ end
 Initialize client to pass it as a dependency to `Event` instance.
 
 ``` ruby
-client = QueueIt::Api::Client.new(api_key: "SECRET_API_KEY")
+client = QueueIt::Api::Client.new("YOUR_CUSTOMER_ID", api_key: "SECRET_API_KEY")
 ```
 
 #### Event

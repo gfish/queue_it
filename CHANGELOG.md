@@ -1,3 +1,9 @@
+### 2.0.0 - 2020-10-29
+
+* A customer ID is needed to create a client instance
+* Always include the Customer ID in the API request URL
+* Bump webmock to properly handle Ruby 2.4+
+
 ### 1.1.6 - 2017-03-15
 
 * Now by default, during creation event, we support using redirect urls
