@@ -8,11 +8,12 @@ module QueueIt
   module Api
     class Client
       JSON_FORMAT  = "application/json".freeze
-      ENDPOINT_URL = URI("https://api2.queue-it.net/2_0/event").freeze
 
-      def initialize(api_key: nil, debug: false)
+      def initialize(customer_id, api_key: nil, debug: false)
+        self.customer_id = customer_id
         self.api_key = api_key
         self.debug   = debug
+        self.endpoint = URI("https://#{customer_id}.api2.queue-it.net/2_0/event")
       end
 
       def put(path, body)
@@ -21,11 +22,11 @@ module QueueIt
 
       private
 
-      attr_accessor :api_key, :debug
+      attr_accessor :api_key, :customer_id, :debug, :endpoint
 
       def options
         {
-          url: ENDPOINT_URL.dup,
+          url: endpoint.dup,
           headers: {
             accept: JSON_FORMAT,
             content_type: JSON_FORMAT,
