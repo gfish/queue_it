@@ -1,5 +1,6 @@
 ### Unreleased
 - Updated the queue and cancel URL from `q.queue-it.net` to `customer_id.queue-it.net`.
+- Updated the queue URLs to use https.
 
 ### 2.0.0 - 2020-10-29
 
