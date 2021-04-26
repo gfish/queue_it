@@ -1,3 +1,6 @@
+### Unreleased
+- Updated the queue and cancel URL from `q.queue-it.net` to `customer_id.queue-it.net`.
+
 ### 2.0.0 - 2020-10-29
 
 * A customer ID is needed to create a client instance
