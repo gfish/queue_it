@@ -20,7 +20,7 @@ module QueueIt
         let(:pre_queue_start_time)     { Time.new(2015,04,28,15,25,46, "+02:00") }
         let(:start_time)               { Time.new(2015,04,28,17,25,46, "+02:00") }
         let(:end_time)                 { Time.new(2015,04,28,21,25,46, "+02:00") }
-        let(:queue_number_validity_in_minutes) { 15 }
+        let(:queue_number_validity_in_minutes) { 30 }
 
         specify "Submits proper request" do
           expect(client).to receive(:put).with(event_id, valid_create_body).and_return(double(body:{}))
@@ -146,7 +146,6 @@ module QueueIt
             "QueueNumberValidityInMinutes" => "#{queue_number_validity_in_minutes}",
             "AfterEventLogic"              => "RedirectUsersToTargetPage",
             "AfterEventRedirectPage"       => "",
-            "UseSSL"                       => "Auto",
             "JavaScriptSupportEnabled"     => "False",
             "TargetUrlSupportEnabled"      => "True",
             "SafetyNetMode"                => "Disabled",
