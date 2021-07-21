@@ -1,3 +1,8 @@
+### 2.0.2 - 2021-07-21
+
+* Defaults changed when creating/updating a queue: CustomLayout set to dark theme, MaxNoOfRedirectsPrQueueId to 3, QueueNumberValidityInMinutes to 30.
+* UseSSL parameter is no longer sent since the use of https will be enforced.
+
 ### 2.0.1 - 2021-04-26
 
 * Updated the queue and cancel URL from `q.queue-it.net` to `customer_id.queue-it.net`.

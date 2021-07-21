@@ -11,7 +11,7 @@ module QueueIt
         self.client = client
       end
 
-      def create_or_update(event_id:, display_name:, start_time:, pre_queue_start_time:nil, know_user_secret_key: nil, redirect_url:, end_time: nil, description: "", event_culture_name: "en-US", time_zone: "UTC", queue_number_validity_in_minutes: 15)
+      def create_or_update(event_id:, display_name:, start_time:, pre_queue_start_time:nil, know_user_secret_key: nil, redirect_url:, end_time: nil, description: "", event_culture_name: "en-US", time_zone: "UTC", queue_number_validity_in_minutes: 30)
         raise InvalidEventIdFormat unless valid_event_id_format?(event_id)
 
         attributes = queue_attributes(
@@ -107,17 +107,16 @@ module QueueIt
           "EventStartTime"               => format_time( utc_start_time(start_time) ),
           "EventEndTime"                 => format_time( utc_end_time(start_time, end_time) ),
           "EventCulture"                 => event_culture_name,
-          "MaxNoOfRedirectsPrQueueId"    => "1",
+          "MaxNoOfRedirectsPrQueueId"    => "3",
           "QueueNumberValidityInMinutes" => "#{queue_number_validity_in_minutes}",
           "AfterEventLogic"              => "RedirectUsersToTargetPage",
           "AfterEventRedirectPage"       => "",
-          "UseSSL"                       => "Auto",
           "JavaScriptSupportEnabled"     => "False",
           "TargetUrlSupportEnabled"      => "True",
           "SafetyNetMode"                => "Disabled",
           "KnowUserSecurity"             => "MD5Hash",
           "KnowUserSecretKey"            => know_user_secret_key,
-          "CustomLayout"                 => "Default layout by Queue-it",
+          "CustomLayout"                 => "Dark theme",
           "XUsersInFrontOfYou"           => nil,
           "TargetUrlValidationRegex"     => "",
           "DomainAlias"                  => "",
