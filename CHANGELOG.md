@@ -1,3 +1,7 @@
+### 3.0.0 - 2021-07-30
+
+* Replace session store with cookie store to prevent some users of being kicked out of the queue
+
 ### 2.0.2 - 2021-07-21
 
 * Defaults changed when creating/updating a queue: CustomLayout set to dark theme, MaxNoOfRedirectsPrQueueId to 3, QueueNumberValidityInMinutes to 30.
