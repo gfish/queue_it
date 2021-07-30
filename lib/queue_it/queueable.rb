@@ -15,18 +15,18 @@ module QueueIt
       end
 
       def queue_it_queue_id(event_id)
-        session[queue_it_session_variable(event_id)].to_i
+        cookies.signed[queue_it_session_variable(event_id)].to_i
       end
 
       def destroy_all_queue_it_sessions
         session_variable_prefix = queue_it_session_variable("")
-        session.keys.select{ |session_key| session_key.start_with?(session_variable_prefix) }.each do |key|
-          session.delete(key)
+        cookies.each do |key, _|
+          cookies.signed.delete(key) if key.starts_with?(session_variable_prefix)
         end
       end
 
       def destroy_queue_it_session(event_id)
-        session.delete(queue_it_session_variable(event_id))
+        cookies.signed.delete(queue_it_session_variable(event_id))
       end
 
       def queue_it_session_variable(event_id)
@@ -37,14 +37,14 @@ module QueueIt
 
       def create_or_verify_queue_it_session(secret_key, event_id, customer_id, request_url, params, current_tickets_url)
         # If there exists a session, we return. This needs to be refactored when we start to look at the timestamp parameter
-        return if session[queue_it_session_variable(event_id)].present?
+        return if cookies.signed[queue_it_session_variable(event_id)].present?
 
         begin
           queue_number = QueueIt::ExtractQueueNumber.new.(
             secret_key: secret_key,
             request_url: request_url,
             request_params: params)
-          session[queue_it_session_variable(event_id)] = queue_number
+          cookies.signed[queue_it_session_variable(event_id)] = { value: queue_number, expires: 24.hours.from_now }
 
           # If the request URL contains queue_it params we remove them and redirect
           # this is done to mask the params we use to create and verify the queue_it session
