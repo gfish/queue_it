@@ -21,12 +21,12 @@ module QueueIt
       def destroy_all_queue_it_sessions
         session_variable_prefix = queue_it_session_variable("")
         cookies.each do |key, _|
-          cookies.signed.delete(key) if key.starts_with?(session_variable_prefix)
+          cookies.delete(key) if key.starts_with?(session_variable_prefix)
         end
       end
 
       def destroy_queue_it_session(event_id)
-        cookies.signed.delete(queue_it_session_variable(event_id))
+        cookies.delete(queue_it_session_variable(event_id))
       end
 
       def queue_it_session_variable(event_id)

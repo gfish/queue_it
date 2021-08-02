@@ -1,3 +1,7 @@
+### 3.0.1 - 2021-08-01
+
+* Correctly delete cookies when a session is destroyed
+
 ### 3.0.0 - 2021-07-30
 
 * Replace session store with cookie store to prevent some users of being kicked out of the queue
