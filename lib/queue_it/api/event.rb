@@ -11,7 +11,7 @@ module QueueIt
         self.client = client
       end
 
-      def create_or_update(event_id:, display_name:, start_time:, pre_queue_start_time:nil, know_user_secret_key: nil, redirect_url:, end_time: nil, description: "", event_culture_name: "en-US", time_zone: "UTC", queue_number_validity_in_minutes: 30, max_no_of_redirects: 1, custom_layout: "Default layout by Queue-it")
+      def create_or_update(event_id:, display_name:, start_time:, pre_queue_start_time:nil, know_user_secret_key: nil, redirect_url:, end_time: nil, description: "", event_culture_name: "en-US", time_zone: "UTC", queue_number_validity_in_minutes: 30, max_no_of_redirects: 1, custom_layout: "Default layout by Queue-it", domain_alias: "")
         raise InvalidEventIdFormat unless valid_event_id_format?(event_id)
 
         attributes = queue_attributes(
@@ -26,6 +26,7 @@ module QueueIt
           queue_number_validity_in_minutes: queue_number_validity_in_minutes,
           time_zone:                        time_zone,
           max_no_of_redirects:              max_no_of_redirects,
+          domain_alias:                     domain_alias,
           custom_layout:                    custom_layout
           )
 
@@ -100,7 +101,7 @@ module QueueIt
         MICROSOFT_TIME_ZONE_INDEX_VALUES.fetch(time_zone, time_zone)
       end
 
-      def queue_attributes(pre_queue_start_time:, start_time:, end_time:, know_user_secret_key:, redirect_url:, description:, display_name:, event_culture_name:, queue_number_validity_in_minutes:, time_zone:, max_no_of_redirects:, custom_layout:)
+      def queue_attributes(pre_queue_start_time:, start_time:, end_time:, know_user_secret_key:, redirect_url:, description:, display_name:, event_culture_name:, queue_number_validity_in_minutes:, time_zone:, max_no_of_redirects:, custom_layout:,domain_alias:)
         {
           "DisplayName"                  => display_name,
           "RedirectUrl"                  => URI(redirect_url).to_s,
@@ -122,7 +123,7 @@ module QueueIt
           "CustomLayout"                 => custom_layout,
           "XUsersInFrontOfYou"           => nil,
           "TargetUrlValidationRegex"     => "",
-          "DomainAlias"                  => "",
+          "DomainAlias"                  => domain_alias,
           "AllowedCustomLayouts"         => [],
           "BrowserCultureEnabled"        => "True",
           "IdleQueueLogic"               => "UseBeforePage",
