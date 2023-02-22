@@ -1,3 +1,9 @@
+### 4.0.0 - 2023-02-22
+
+* Use `Same-Site: none` for cookies so that they work in iframes on third-party sites
+* Bump bundler version to `~> 2`
+* Bump ruby version to 3.1.3
+
 ### 3.0.1 - 2021-08-01
 
 * Correctly delete cookies when a session is destroyed
