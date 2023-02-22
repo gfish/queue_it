@@ -7,15 +7,15 @@ module FaradayMiddleware
       @app.call(env).on_complete do |response|
         case response[:status].to_i
         when 400
-          raise QueueIt::Api::BadRequest.new(response.body, error_details(response))
+          raise QueueIt::Api::BadRequest.new(response.body, **error_details(response))
         when 403
-          raise QueueIt::Api::Forbidden.new(response.body, error_details(response))
+          raise QueueIt::Api::Forbidden.new(response.body, **error_details(response))
         when 404
-          raise QueueIt::Api::NotFound.new(response.body, error_details(response))
+          raise QueueIt::Api::NotFound.new(response.body, **error_details(response))
         when 500
-          raise QueueIt::Api::InternalServerError.new(response.body, error_details(response))
+          raise QueueIt::Api::InternalServerError.new(response.body, **error_details(response))
         when 503
-          raise QueueIt::Api::ServiceUnavailable.new(response.body, error_details(response))
+          raise QueueIt::Api::ServiceUnavailable.new(response.body, **error_details(response))
         end
       end
     end

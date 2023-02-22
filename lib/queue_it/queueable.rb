@@ -44,7 +44,7 @@ module QueueIt
             secret_key: secret_key,
             request_url: request_url,
             request_params: params)
-          cookies.signed[queue_it_session_variable(event_id)] = { value: queue_number, expires: 24.hours.from_now }
+          cookies.signed[queue_it_session_variable(event_id)] = { value: queue_number, expires: 24.hours.from_now, same_site: :none }
 
           # If the request URL contains queue_it params we remove them and redirect
           # this is done to mask the params we use to create and verify the queue_it session
