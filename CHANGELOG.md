@@ -1,3 +1,16 @@
+### 5.0.0 - 2026-10-22
+
+Breaking:
+
+* Require `faraday >= 1.10` (was `>= 0.9`)
+* No longer depend on `faraday_middleware`; apps that relied on it being pulled in transitively must add it themselves
+
+Other:
+
+* Support Faraday 2 (`faraday < 3`)
+* Use Faraday's built-in JSON middleware
+* Require `cgi` explicitly in `ExtractQueueNumber`
+
 ### 4.0.0 - 2023-02-22
 
 * Use `Same-Site: none` for cookies so that they work in iframes on third-party sites

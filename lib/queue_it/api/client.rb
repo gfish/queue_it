@@ -1,6 +1,5 @@
 require 'uri'
 require 'faraday'
-require 'faraday_middleware'
 require 'faraday/raise_http_exception'
 require 'queue_it/api/error'
 
@@ -45,8 +44,8 @@ module QueueIt
           builder.response :logger, nil, { bodies: true } if debug?
           builder.response :json, content_type: /\bjson$/
 
-          builder.adapter  Faraday.default_adapter
           builder.use      FaradayMiddleware::RaiseHttpException
+          builder.adapter  Faraday.default_adapter
         end
       end
     end
